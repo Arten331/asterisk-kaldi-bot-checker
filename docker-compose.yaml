@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  kaldi:
+    hostname: kaldi
+    container_name: kaldi
+    image: alphacep/kaldi-ru:latest
+    ports:
+      - "2700:2700"
+
+volumes:
+  data:
+
+networks:
+  def:

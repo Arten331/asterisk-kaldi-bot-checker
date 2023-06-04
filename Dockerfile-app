@@ -1,0 +1,15 @@
+# STEP 1 build executable binary
+FROM golang:1.18 as builder
+WORKDIR /build
+COPY . .
+
+#build the binary
+RUN GOPROXY='http://docker.for.mac.host.internal:3000' CGO_ENABLED=0 GOOS=linux go build -v ./cmd/bot-checker.go
+
+# STEP 2 build a small image
+# start from alpine
+FROM alpine:3.13.1
+RUN apk add --no-cache sox ffmpeg bash grep
+
+COPY --from=builder /go/bin/project /go/bin/project
+EXPOSE 80
